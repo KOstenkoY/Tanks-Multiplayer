@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class PlayerController : NetworkBehaviour
 {
-    [SerializeField] private float _speed = 3;
+    [SyncVar, SerializeField] private float _speed = 2;
     [SyncVar, SerializeField] private int _health = 3;
     private void Start()
     {
@@ -31,6 +31,8 @@ public class PlayerController : NetworkBehaviour
         if (_health <= 0)
         {
             Destroy(gameObject);
+
+            NetworkServer.UnSpawn(gameObject);
         }
         else
         {
