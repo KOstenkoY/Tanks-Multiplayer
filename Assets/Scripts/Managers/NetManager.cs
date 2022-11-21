@@ -7,6 +7,6 @@ public class NetManager : NetworkManager
 {
     //public override void OnClientConnect()
     //{
-    //    base.OnClientConnect();
+    //    Debug.Log("Player connection");
     //}
 }

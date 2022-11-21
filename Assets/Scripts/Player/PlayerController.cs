@@ -5,21 +5,36 @@ using UnityEngine;
 
 public class PlayerController : NetworkBehaviour
 {
-    [SyncVar, SerializeField] private float _speed = 1000;
-
+    [SerializeField] private float _speed = 3;
+    [SyncVar, SerializeField] private int _health = 3;
     private void Start()
     {
-        InputManager.Instance.SetPlayer(this);
+        if (isClient && isLocalPlayer)
+        {
+            InputManager.Instance.SetPlayer(this);
+        }
     }
-
-    private void Update()
-    {
-        
-    }
-
-    public void Move(float movementX, float movementY)
+    public void MovePlayer(float movementX, float movementY)
     {
         transform.Translate(new Vector3(movementX * _speed * Time.deltaTime, movementY * _speed * Time.deltaTime));
     }
 
+    [Command]
+    public void CmdMovePlayer(float movementX, float movementY)
+    {
+        transform.Translate(new Vector3(movementX * _speed * Time.deltaTime, movementY * _speed * Time.deltaTime));
+    }
+
+    [Command]
+    public void CmdTakeDamage(int damage)
+    {
+        if (_health <= 0)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            _health -= damage;
+        }
+    }
 }
