@@ -30,9 +30,18 @@ public class Bullet : MonoBehaviour
             collision.GetComponent<PlayerController>().CmdTakeDamage(_damage);
 
         }
-        else if (collision.CompareTag("Wall"))
+        else if (collision.CompareTag("BrickWall"))
         {
-            //collision.GetComponent<>
+            // destroy brick wall and destroy this object with animation
+            // collision.GetComponent<>
+        }
+        else if(collision.CompareTag("Wall"))
+        {
+            // destroy object with animation
+        }
+        else
+        {
+            // throw new Exception about bag in game
         }
         Destroy(gameObject);
     }

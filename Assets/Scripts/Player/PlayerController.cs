@@ -28,15 +28,13 @@ public class PlayerController : NetworkBehaviour
     [Command]
     public void CmdTakeDamage(int damage)
     {
+        _health -= damage;
+
         if (_health <= 0)
         {
             Destroy(gameObject);
 
             NetworkServer.UnSpawn(gameObject);
-        }
-        else
-        {
-            _health -= damage;
         }
     }
 }

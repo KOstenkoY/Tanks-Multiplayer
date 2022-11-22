@@ -5,39 +5,57 @@ using UnityEngine;
 
 public class NetManager : NetworkManager
 {
+    [SerializeField] private Transform[] _startPositions;
+
+    // helper index for Transform
+    private int _helperIndex = 0;
+
+    private void Start()
+    {
+        ShuffleArray(_startPositions);
+    }
+
     public override void OnStartServer()
     {
         base.OnStartServer();
 
-        NetworkServer.RegisterHandler<CreateMMOCharacterMessage>(OnCreateCharacter);
+        // specify which struct should come to the server in order for the swap to be performed
+        NetworkServer.RegisterHandler<PositionMessage>(OnCreateCharacter);
     }
-
 
     public override void OnClientConnect()
     {
         base.OnClientConnect();
 
-        // you can send the message here, or whereve
-        CreateMMOCharacterMessage characterMessage = new CreateMMOCharacterMessage { color = Color.black, name = "Jeck" };
+        PositionMessage pos = new PositionMessage { startPosition = _startPositions[_helperIndex].position };
 
-        NetworkClient.Send(characterMessage);
+        _helperIndex++;
+
+        NetworkClient.Send(pos);
     }
 
-    private void OnCreateCharacter(NetworkConnectionToClient conn, CreateMMOCharacterMessage characterMessage)
+    private void OnCreateCharacter(NetworkConnectionToClient conn, PositionMessage message)
     {
         // playerPrefab is the one assigned in the inspector in Network Manager
-        GameObject gameObject = Instantiate(playerPrefab);
-
-        // apply data from the message
-        PlayerController player = gameObject.GetComponent<PlayerController>();
+        GameObject player = Instantiate(playerPrefab, message.startPosition, Quaternion.identity);
 
         // call this to use this gameobject as the primary controller
-        NetworkServer.AddPlayerForConnection(conn, gameObject);
+        NetworkServer.AddPlayerForConnection(conn, player);
     }
 
-    public struct CreateMMOCharacterMessage : NetworkMessage
+    private void ShuffleArray<T>(T[] array)
     {
-        public Color color;
-        public string name;
+        for(int i = 0; i < array.Length; i++)
+        {
+            T tmp = array[i];
+            int r = Random.Range(i, array.Length);
+            array[i] = array[r];
+            array[r] = tmp;
+        }
+    } 
+
+    public struct PositionMessage : NetworkMessage
+    {
+        public Vector3 startPosition;
     }
 }
