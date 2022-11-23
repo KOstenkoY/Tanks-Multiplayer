@@ -10,10 +10,12 @@ public class Bullet : MonoBehaviour
 
     private float _gravityScale = 0;
 
+    // count of bullets that player get back after bullet got into something
+    private int _countBulletsReturn = 1;
+
     private void Start()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
-
         _rigidbody.gravityScale = _gravityScale;
     }
 
@@ -25,6 +27,7 @@ public class Bullet : MonoBehaviour
     [Mirror.ServerCallback]
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        // compare tags
         if (collision.CompareTag("Player"))
         {
             collision.GetComponent<PlayerController>().CmdTakeDamage(_damage);
@@ -32,8 +35,8 @@ public class Bullet : MonoBehaviour
         }
         else if (collision.CompareTag("BrickWall"))
         {
-            // destroy brick wall and destroy this object with animation
-            // collision.GetComponent<>
+            collision.GetComponent<BrickWall>().CmdRemoveWall(collision.gameObject);
+            collision.GetComponent<BrickWall>().RemoveWall(collision.gameObject);
         }
         else if(collision.CompareTag("Wall"))
         {
@@ -43,6 +46,7 @@ public class Bullet : MonoBehaviour
         {
             // throw new Exception about bag in game
         }
-        Destroy(gameObject);
+
+        gameObject.SetActive(false);
     }
 }

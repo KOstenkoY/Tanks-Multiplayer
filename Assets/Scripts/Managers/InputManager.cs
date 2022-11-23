@@ -94,6 +94,6 @@ public class InputManager : Singleton<InputManager>
 
     public void OnFireButtonDown()
     {
-        _playerWeapons.CmdFire();
+        _playerWeapons.TryToFire();
     }
 }

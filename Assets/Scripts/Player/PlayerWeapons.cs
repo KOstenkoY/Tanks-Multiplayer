@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 using Mirror;
 
@@ -10,12 +9,26 @@ public class PlayerWeapons : NetworkBehaviour
     [SerializeField] private GameObject _bullet;
     [SerializeField] private Transform _bulletSpawnPosition;
 
+    private int _countBullets = 1;
+
+    public static Func<int> OnReturnBullet;
+
     private void Start()
     {
         if (isClient && isLocalPlayer)
         {
             InputManager.Instance.SetWeapons(this);
         }
+    }
+
+    public void TryToFire()
+    {
+        if(_countBullets > 0)
+        {
+            CmdFire();
+        }
+        
+        _countBullets--;
     }
 
     [Command]
