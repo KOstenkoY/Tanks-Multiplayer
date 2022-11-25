@@ -36,5 +36,12 @@ public class PlayerController : NetworkBehaviour
 
             NetworkServer.UnSpawn(gameObject);
         }
+        OnTakeDamage();
+    }
+
+    [ClientRpc]
+    private void OnTakeDamage()
+    {
+
     }
 }

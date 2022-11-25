@@ -32,7 +32,7 @@ public class PlayerWeapons : NetworkBehaviour
 
     public void TryToFire()
     {
-        if(_countBullets > 0)
+        if (_countBullets > 0)
         {
             CmdFire();
 
