@@ -11,7 +11,16 @@ public class PlayerWeapons : NetworkBehaviour
 
     private int _countBullets = 1;
 
-    public static Func<int> OnReturnBullet;
+
+    private void OnEnable()
+    {
+        Bullet.OnBulletReturn += ReturnBullet;
+    }
+
+    private void OnDisable()
+    {
+        Bullet.OnBulletReturn -= ReturnBullet;
+    }
 
     private void Start()
     {
@@ -26,9 +35,9 @@ public class PlayerWeapons : NetworkBehaviour
         if(_countBullets > 0)
         {
             CmdFire();
+
+            _countBullets--;
         }
-        
-        _countBullets--;
     }
 
     [Command]
@@ -42,5 +51,10 @@ public class PlayerWeapons : NetworkBehaviour
 
         //  spawn the bullet on the Clients
         NetworkServer.Spawn(bullet);
+    }
+
+    private void ReturnBullet()
+    {
+        _countBullets++;
     }
 }

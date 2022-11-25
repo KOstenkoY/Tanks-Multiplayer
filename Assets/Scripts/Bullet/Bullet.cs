@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -12,6 +13,8 @@ public class Bullet : MonoBehaviour
 
     // count of bullets that player get back after bullet got into something
     private int _countBulletsReturn = 1;
+
+    public static Action OnBulletReturn;
 
     private void Start()
     {
@@ -47,6 +50,8 @@ public class Bullet : MonoBehaviour
             // throw new Exception about bag in game
         }
 
-        gameObject.SetActive(false);
+        OnBulletReturn?.Invoke();
+
+        Destroy(gameObject);
     }
 }
