@@ -11,21 +11,20 @@ public class InputManager : Singleton<InputManager>
 
     private float _rotationZ;
 
-    private Vector2 movement = new Vector2();
+    private Vector2 _direction = new Vector2();
 
     private void Start()
     {
-        // always move straight
-        movement = new Vector2(0, 1);
+        _direction = new Vector2(0, 0);
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         if (_buttonPressed && _playerController)
         {
-            _playerController.CmdMovePlayer(movement.x, movement.y);
+            _playerController.CmdMovePlayer(_direction);
 
-            _playerController.MovePlayer(movement.x, movement.y);
+            _playerController.MovePlayer(_direction);
         }
     }
     
@@ -41,6 +40,8 @@ public class InputManager : Singleton<InputManager>
 
     public void OnUpButtonDown()
     {
+        _direction = new Vector2(0, 1);
+
         _buttonPressed = true;
 
         if (_rotationZ != 0)
@@ -53,6 +54,8 @@ public class InputManager : Singleton<InputManager>
 
     public void OnDownButtonDown()
     {
+        _direction = new Vector2(0, -1);
+
         _buttonPressed = true;
 
         if (_rotationZ != 180)
@@ -65,6 +68,8 @@ public class InputManager : Singleton<InputManager>
 
     public void OnRightButtonDown()
     {
+        _direction = new Vector2(1, 0);
+
         _buttonPressed = true;
 
         if (_rotationZ != -90)
@@ -77,6 +82,8 @@ public class InputManager : Singleton<InputManager>
 
     public void OnLeftButtonDown()
     {
+        _direction = new Vector2(-1, 0);
+
         _buttonPressed = true;
 
         if (_rotationZ != 90)
@@ -89,6 +96,9 @@ public class InputManager : Singleton<InputManager>
 
     public void OnButtonUp()
     {
+        _playerController.CmdStopMovePlayer();
+        _playerController.StopMovePlayer();
+
         _buttonPressed = false;
     }
 
