@@ -10,17 +10,14 @@ public class NetManager : NetworkManager
     // helper index for Transform
     private int _helperIndex = 0;
 
-    private void Start()
-    {
-        ShuffleArray(_startPositions);
-    }
-
     public override void OnStartServer()
     {
         base.OnStartServer();
 
         // specify which struct should come to the server in order for the swap to be performed
         NetworkServer.RegisterHandler<PositionMessage>(OnCreateCharacter);
+
+        ShuffleArray(_startPositions);
     }
 
     public override void OnClientConnect()
