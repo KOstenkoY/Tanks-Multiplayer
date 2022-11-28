@@ -1,11 +1,11 @@
-using System;
+using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class Bullet : MonoBehaviour
 {
     [SerializeField] private int _damage = 1;
-    [SerializeField] private float _bulletSpeed = 7;
+    [SerializeField] private float _bulletSpeed = 1.5f;
 
     private Rigidbody2D _rigidbody;
 
@@ -13,8 +13,6 @@ public class Bullet : MonoBehaviour
 
     // count of bullets that player get back after bullet got into something
     private int _countBulletsReturn = 1;
-
-    public static Action OnBulletReturn;
 
     private void Start()
     {
@@ -50,8 +48,6 @@ public class Bullet : MonoBehaviour
             // throw new Exception about bag in game
         }
 
-        OnBulletReturn?.Invoke();
-
-        Destroy(gameObject);
+        gameObject.SetActive(false);
     }
 }

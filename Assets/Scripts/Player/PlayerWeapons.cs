@@ -11,17 +11,6 @@ public class PlayerWeapons : NetworkBehaviour
 
     private int _countBullets = 1;
 
-
-    private void OnEnable()
-    {
-        Bullet.OnBulletReturn += ReturnBullet;
-    }
-
-    private void OnDisable()
-    {
-        Bullet.OnBulletReturn -= ReturnBullet;
-    }
-
     private void Start()
     {
         if (isClient && isLocalPlayer)
@@ -32,20 +21,27 @@ public class PlayerWeapons : NetworkBehaviour
 
     public void TryToFire()
     {
-        if (_countBullets > 0)
-        {
-            CmdFire();
+        // take bullet from object pool
+        GameObject bullet = ObjectPool.SharedInstance.GetPooledObject();
 
-            _countBullets--;
+        if (bullet != null)
+        {
+            bullet.transform.position = _bulletSpawnPosition.position;
+            bullet.transform.rotation = _bulletSpawnPosition.rotation;
+
+            bullet.SetActive(true);
         }
     }
 
     [Command]
-    public void CmdFire()
+    public void CmdFire(GameObject bullet)
     {
-        // create the bullet from te prefab
-        GameObject bullet = (GameObject)Instantiate(_bullet, _bulletSpawnPosition.position, _bulletSpawnPosition.rotation);
+        OnFire(bullet);
+    }
 
+    [ClientRpc]
+    private void OnFire(GameObject bullet)
+    {
         // add velocity to the bullet
         bullet.GetComponent<Rigidbody2D>().velocity = bullet.transform.forward * _bulletSpeed;
 

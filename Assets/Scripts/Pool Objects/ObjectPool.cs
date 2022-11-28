@@ -2,75 +2,46 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ObjectPool : Singleton<ObjectPool>
+public class ObjectPool : MonoBehaviour
 {
-    private Dictionary<int, Pool> pools = new Dictionary<int, Pool>();
+    public static ObjectPool SharedInstance;
 
-    private void Init(GameObject prefab, int indexObject)
+    private List<GameObject> _pooledObjects;
+
+    [SerializeField] private GameObject _objectToPool;
+
+    [SerializeField] private int _amountToPool;
+
+    private void Awake()
     {
-        if (prefab != null && pools.ContainsKey(indexObject) == false)
+        SharedInstance = this;
+    }
+
+    private void Start()
+    {
+        _pooledObjects = new List<GameObject>();
+
+        GameObject tmp;
+
+        for(int i = 0; i < _amountToPool; i++)
         {
-            pools[indexObject] = new Pool(prefab);
+            tmp = Instantiate(_objectToPool);
+            tmp.SetActive(false);
+            
+            _pooledObjects.Add(tmp);
         }
     }
 
-    public GameObject Spawn(GameObject prefab, int indexObject, Vector3 position, Quaternion rotation)
+    public GameObject GetPooledObject()
     {
-        Init(prefab, indexObject);
-        return pools[indexObject].Spawn(position, rotation);
-    }
-
-    public void Despawn(GameObject obj, int indexObject)
-    {
-        if (pools.ContainsKey(indexObject))
+        for(int i = 0; i < _amountToPool; i++)
         {
-            pools[indexObject].Despawn(obj);
-        }
-        else
-        {
-            Destroy(obj);
-        }
-    }
-
-    private class Pool
-    {
-        private List<GameObject> inactive = new List<GameObject>();
-
-        private GameObject prefab;
-
-        public GameObject Prefab => prefab;
-
-        public Pool(GameObject prefab)
-        {
-            this.prefab = prefab;
-        }
-
-        public GameObject Spawn(Vector3 position, Quaternion rotation)
-        {
-            GameObject obj;
-
-            if (inactive.Count == 0)
+            if (!_pooledObjects[i].activeInHierarchy)
             {
-                obj = Instantiate(prefab, position, rotation);
+                return _pooledObjects[i];
             }
-            else
-            {
-                obj = inactive[inactive.Count - 1];
-                inactive.RemoveAt(inactive.Count - 1);
-            }
-
-            obj.transform.position = position;
-            obj.transform.rotation = rotation;
-
-            obj.SetActive(true);
-
-            return obj;
         }
 
-        public void Despawn(GameObject obj)
-        {
-            obj.SetActive(false);
-            inactive.Add(obj);
-        }
+        return null;
     }
 }
