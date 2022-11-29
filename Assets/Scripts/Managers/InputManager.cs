@@ -22,8 +22,6 @@ public class InputManager : Singleton<InputManager>
     {
         if (_buttonPressed && _playerController)
         {
-            _playerController.CmdMovePlayer(_direction);
-
             _playerController.MovePlayer(_direction);
         }
     }
@@ -96,7 +94,6 @@ public class InputManager : Singleton<InputManager>
 
     public void OnButtonUp()
     {
-        _playerController.CmdStopMovePlayer();
         _playerController.StopMovePlayer();
 
         _buttonPressed = false;

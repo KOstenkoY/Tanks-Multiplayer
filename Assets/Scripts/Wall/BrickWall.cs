@@ -5,14 +5,20 @@ using UnityEngine;
 
 public class BrickWall : NetworkBehaviour
 {
-    [Command]
-    public void CmdRemoveWall(GameObject go)
-    {
-        NetworkServer.Destroy(go);
-    }
-
     public void RemoveWall(GameObject go)
     {
+        CmdRemoveWall(go);
+
         Destroy(go);
     }
+
+    [Command]
+    private void CmdRemoveWall(GameObject go)
+    {
+        OnRemoveWall(go);
+    }
+
+    [ClientRpc]
+    private void OnRemoveWall(GameObject go) => NetworkServer.UnSpawn(go);
+    
 }

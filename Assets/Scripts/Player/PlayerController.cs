@@ -26,26 +26,42 @@ public class PlayerController : NetworkBehaviour
     public void MovePlayer(Vector2 direction)
     {
         _rigidbody.velocity = direction * _speedForce;
+
+        CmdMovePlayer(direction);
     }
 
     [Command]
-    public void CmdMovePlayer(Vector2 direction)
+    private void CmdMovePlayer(Vector2 direction)
     {
-        _rigidbody.velocity = direction * _speedForce;
+        OnMovePlayer(direction);
     }
+
+    [ClientRpc]
+    private void OnMovePlayer(Vector2 direction) => _rigidbody.velocity = direction * _speedForce;
 
     public void StopMovePlayer()
     {
         _rigidbody.velocity = Vector2.zero;
+
+        CmdStopMovePlayer();
     }
 
     [Command]
-    public void CmdStopMovePlayer()
+    private void CmdStopMovePlayer()
     {
-        _rigidbody.velocity = Vector2.zero;
+        OnStopMovePlayer();
     }
 
-    public void CmdTakeDamage(int damage)
+    [ClientRpc]
+    private void OnStopMovePlayer() => _rigidbody.velocity = Vector2.zero;
+
+    public  void TakeDamage(int damage)
+    {
+        CmdTakeDamage(damage);
+    }
+
+    [Command]
+    private void CmdTakeDamage(int damage)
     {
         _health -= damage;
 

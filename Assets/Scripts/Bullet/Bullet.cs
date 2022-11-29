@@ -1,8 +1,9 @@
 using System.Collections;
 using UnityEngine;
+using Mirror;
 
 [RequireComponent(typeof(Rigidbody2D))]
-public class Bullet : MonoBehaviour
+public class Bullet : NetworkBehaviour
 {
     [SerializeField] private int _damage = 1;
     [SerializeField] private float _bulletSpeed = 1.5f;
@@ -31,12 +32,11 @@ public class Bullet : MonoBehaviour
         // compare tags
         if (collision.CompareTag("Player"))
         {
-            collision.GetComponent<PlayerController>().CmdTakeDamage(_damage);
+            collision.GetComponent<PlayerController>().TakeDamage(_damage);
 
         }
         else if (collision.CompareTag("BrickWall"))
         {
-            collision.GetComponent<BrickWall>().CmdRemoveWall(collision.gameObject);
             collision.GetComponent<BrickWall>().RemoveWall(collision.gameObject);
         }
         else if(collision.CompareTag("Wall"))
@@ -49,5 +49,16 @@ public class Bullet : MonoBehaviour
         }
 
         gameObject.SetActive(false);
+
+        OnRemoveThisObject(this.gameObject);
     }
+
+    [Command]
+    private void CmdRemoveThisObject(GameObject bullet)
+    {
+        OnRemoveThisObject(bullet);
+    }
+
+    [ClientRpc]
+    private void OnRemoveThisObject(GameObject bullet) => bullet.gameObject.SetActive(false);
 }
