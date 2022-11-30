@@ -1,16 +1,27 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
+using Mirror;
 
-public class Player : MonoBehaviour
+public class Player : NetworkBehaviour
 {
-    private Color _color;
+    [SyncVar(hook = nameof(OnNameChanged))]
+    private string _playerName = null;
 
-    private string _name;
+    public void OnNameChanged(string oldName, string newName)
+    {
+        if(newName != null)
+        {
+            _playerName = newName;
+        }
+        else
+        {
+            throw new ArgumentNullException();
+        }
+    }
 
-    private int _countCoins;
-
-    public Color Color { get { return _color; } set { _color = value; } }
-    public string Name { get { return _name; } set { _name = value; } }
-    public int CountCoins { get { return _countCoins; } set { _countCoins = value; } }
+    [Command]
+    public void CmdSetupPlayer(string name)
+    {
+        _playerName = name;
+    }
 }

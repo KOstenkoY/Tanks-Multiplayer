@@ -7,7 +7,7 @@ public class NetManager : NetworkManager
 {
     [SerializeField] private Transform[] _startPositions;
 
-    // helper index for Transform
+    // helper index for Random Spawn our Players, when game starts
     private int _helperIndex = 0;
 
     public override void OnStartServer()

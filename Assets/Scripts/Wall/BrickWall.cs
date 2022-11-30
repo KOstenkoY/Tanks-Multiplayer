@@ -15,10 +15,10 @@ public class BrickWall : NetworkBehaviour
     [Command]
     private void CmdRemoveWall(GameObject go)
     {
-        OnRemoveWall(go);
+        RpcRemoveWall(go);
     }
 
     [ClientRpc]
-    private void OnRemoveWall(GameObject go) => NetworkServer.UnSpawn(go);
+    private void RpcRemoveWall(GameObject go) => NetworkServer.UnSpawn(go);
     
 }

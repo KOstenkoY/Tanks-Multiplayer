@@ -7,10 +7,8 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerController : NetworkBehaviour
 {
-    //[SyncVar, SerializeField] 
-    public float _speedForce = 2f;
-    //[SyncVar, SerializeField] 
-    private int _health = 3;
+    [SyncVar, SerializeField]
+    private float _speedForce = 1.5f;
 
     private Rigidbody2D _rigidbody;
 
@@ -33,11 +31,11 @@ public class PlayerController : NetworkBehaviour
     [Command]
     private void CmdMovePlayer(Vector2 direction)
     {
-        OnMovePlayer(direction);
+        RpcMovePlayer(direction);
     }
 
     [ClientRpc]
-    private void OnMovePlayer(Vector2 direction) => _rigidbody.velocity = direction * _speedForce;
+    private void RpcMovePlayer(Vector2 direction) => _rigidbody.velocity = direction * _speedForce;
 
     public void StopMovePlayer()
     {
@@ -49,27 +47,9 @@ public class PlayerController : NetworkBehaviour
     [Command]
     private void CmdStopMovePlayer()
     {
-        OnStopMovePlayer();
+        RpcStopMovePlayer();
     }
 
     [ClientRpc]
-    private void OnStopMovePlayer() => _rigidbody.velocity = Vector2.zero;
-
-    public  void TakeDamage(int damage)
-    {
-        CmdTakeDamage(damage);
-    }
-
-    [Command]
-    private void CmdTakeDamage(int damage)
-    {
-        _health -= damage;
-
-        if (_health <= 0)
-        {
-            Destroy(gameObject);
-
-            NetworkServer.UnSpawn(gameObject);
-        }
-    }
+    private void RpcStopMovePlayer() => _rigidbody.velocity = Vector2.zero;
 }

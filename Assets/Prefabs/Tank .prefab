@@ -43,6 +43,7 @@ GameObject:
   - component: {fileID: 6551465784253049550}
   - component: {fileID: 6551465784253049545}
   - component: {fileID: 6551465784253049542}
+  - component: {fileID: 5545246694865887348}
   - component: {fileID: 6551465784253049543}
   - component: {fileID: 6551465784253049540}
   - component: {fileID: 8205378635530941876}
@@ -190,6 +191,21 @@ MonoBehaviour:
   showGizmos: 0
   showOverlay: 0
   overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
+--- !u!114 &5545246694865887348
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6551465784253049559}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba3ec004e59c6fe458f8fc3b4fea7e30, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
 --- !u!114 &6551465784253049543
 MonoBehaviour:
   m_ObjectHideFlags: 0

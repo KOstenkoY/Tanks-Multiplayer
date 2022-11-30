@@ -26,13 +26,13 @@ public class Bullet : NetworkBehaviour
         transform.Translate(new Vector2(0, _bulletSpeed * Time.deltaTime));
     }
 
-    [Mirror.ServerCallback]
+    [ServerCallback]
     private void OnTriggerEnter2D(Collider2D collision)
     {
         // compare tags
         if (collision.CompareTag("Player"))
         {
-            collision.GetComponent<PlayerController>().TakeDamage(_damage);
+            collision.GetComponent<PlayerHealthController>().TakeDamage(_damage);
 
         }
         else if (collision.CompareTag("BrickWall"))
@@ -50,15 +50,15 @@ public class Bullet : NetworkBehaviour
 
         gameObject.SetActive(false);
 
-        OnRemoveThisObject(this.gameObject);
+        CmdRemoveThisObject(this.gameObject);
     }
 
     [Command]
     private void CmdRemoveThisObject(GameObject bullet)
     {
-        OnRemoveThisObject(bullet);
+        RpcRemoveThisObject(bullet);
     }
 
     [ClientRpc]
-    private void OnRemoveThisObject(GameObject bullet) => bullet.gameObject.SetActive(false);
+    private void RpcRemoveThisObject(GameObject bullet) => bullet.gameObject.SetActive(false);
 }

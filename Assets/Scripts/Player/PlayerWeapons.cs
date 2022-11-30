@@ -36,11 +36,11 @@ public class PlayerWeapons : NetworkBehaviour
     [Command]
     public void CmdFire(GameObject bullet)
     {
-        OnFire(bullet);
+        RpcFire(bullet);
     }
 
     [ClientRpc]
-    private void OnFire(GameObject bullet)
+    private void RpcFire(GameObject bullet)
     {
         // add velocity to the bullet
         bullet.GetComponent<Rigidbody2D>().velocity = bullet.transform.forward * _bulletSpeed;
