@@ -6,10 +6,7 @@ public class PlayerWeapons : NetworkBehaviour
 {
     [SyncVar, SerializeField] private float _bulletSpeed = 6;
 
-    [SerializeField] private GameObject _bullet;
     [SerializeField] private Transform _bulletSpawnPosition;
-
-    private int _countBullets = 1;
 
     private void Start()
     {
@@ -47,10 +44,5 @@ public class PlayerWeapons : NetworkBehaviour
 
         //  spawn the bullet on the Clients
         NetworkServer.Spawn(bullet);
-    }
-
-    private void ReturnBullet()
-    {
-        _countBullets++;
     }
 }
