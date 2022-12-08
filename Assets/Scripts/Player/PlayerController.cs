@@ -12,13 +12,11 @@ public class PlayerController : NetworkBehaviour
 
     private Rigidbody2D _rigidbody;
 
-    private void Start()
+    public override void OnStartAuthority()
     {
-        if (isClient && isLocalPlayer)
-        {
-            InputManager.Instance.SetPlayer(this);
-            _rigidbody = GetComponent<Rigidbody2D>();
-        }
+        _rigidbody = GetComponent<Rigidbody2D>();
+
+        InputManager.Instance.SetPlayer(this);
     }
 
     public void MovePlayer(Vector2 direction)
@@ -31,25 +29,18 @@ public class PlayerController : NetworkBehaviour
     [Command]
     private void CmdMovePlayer(Vector2 direction)
     {
-        RpcMovePlayer(direction);
+        _rigidbody.velocity = direction * _speedForce;
     }
-
-    [ClientRpc]
-    private void RpcMovePlayer(Vector2 direction) => _rigidbody.velocity = direction * _speedForce;
 
     public void StopMovePlayer()
     {
         _rigidbody.velocity = Vector2.zero;
-
         CmdStopMovePlayer();
     }
 
     [Command]
     private void CmdStopMovePlayer()
     {
-        RpcStopMovePlayer();
+        _rigidbody.velocity = Vector2.zero;
     }
-
-    [ClientRpc]
-    private void RpcStopMovePlayer() => _rigidbody.velocity = Vector2.zero;
 }

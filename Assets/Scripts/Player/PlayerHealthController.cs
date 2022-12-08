@@ -1,17 +1,24 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using System;
 
 public class PlayerHealthController : NetworkBehaviour
 {
-    [SyncVar(hook = nameof(OnHealthChanged)), SerializeField]
-    private int _health = 3;
+    [SerializeField] private int _maxHealth = 3;
+
+    [SyncVar(hook = nameof(OnHealthChanged))]
+    private int _health = 0;
+
+    public bool isDead => _health == 0;
+
+    public override void OnStartServer()
+    {
+        _health = _maxHealth;
+    }
 
     private void OnHealthChanged(int oldValue, int newValue)
     {
-        if(newValue > 0)
+        if(oldValue > newValue)
         {
             _health = newValue;
         }
@@ -27,8 +34,6 @@ public class PlayerHealthController : NetworkBehaviour
 
         if (_health <= 0)
         {
-            Destroy(gameObject);
-
             CmdTakeDamage();
         }
     }
@@ -36,20 +41,11 @@ public class PlayerHealthController : NetworkBehaviour
     [Command]
     private void CmdTakeDamage()
     {
-        RpcTakeDamage();
-
-        //_health -= damage;
-
-        //if (_health <= 0)
-        //{
-        //    Destroy(gameObject);
-
-        //    NetworkServer.UnSpawn(gameObject);
-        //}
+        RpcHandleDeath();
     }
 
     [ClientRpc]
-    private void RpcTakeDamage()
+    private void RpcHandleDeath()
     {
         gameObject.SetActive(false);
     }

@@ -9,7 +9,7 @@ public class MainMenu : MonoBehaviour
 
     public void HostLobby()
     {
-        _networkManagerLobby.StartHost();
+        _networkManagerLobby.StartHost();  
 
         _landingPagePanel.SetActive(false);
     }

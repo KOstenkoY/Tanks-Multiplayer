@@ -237,8 +237,6 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
-  _bulletSpeed: 6
-  _bullet: {fileID: 1571578329137374667, guid: 25c840c1e248f144ebb9862c16bf5c79, type: 3}
   _bulletSpawnPosition: {fileID: 6551465784253049555}
 --- !u!50 &8205378635530941876
 Rigidbody2D:

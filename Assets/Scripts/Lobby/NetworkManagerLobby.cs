@@ -8,20 +8,21 @@ using UnityEngine.SceneManagement;
 public class NetworkManagerLobby : NetworkManager
 {
     [SerializeField] private int _minPlayers = 2;
+
     [Scene] [SerializeField] private string _menuScene = string.Empty;
-    [SerializeField] private string menuScene = null;
+    [SerializeField] private string menuScene = string.Empty;
 
     [Header("Room")]
-    [SerializeField] private NetworkRoomPlayerLobby _roomPlayerPrefab;
+    [SerializeField] private NetworkRoomPlayerLobby _roomPlayerPrefab = null;
 
-    [Header("Maps")]
-    [SerializeField] private int _numberOfRounds = 1;
+    //[Header("Maps")]
+    //[SerializeField] private int _numberOfRounds = 1;
     //[SerializeField] private MapSet _mapSet = null;
 
     [Header("Game")]
     [SerializeField] private NetworkGamePlayerLobby _gamePlayerPrefab = null;
     [SerializeField] private GameObject _playerSpawnSystem = null;
-    [SerializeField] private GameObject _roundSystem = null;
+    //[SerializeField] private GameObject _roundSystem = null;
 
     //private MapHandler _mapHandler;
 
@@ -33,20 +34,20 @@ public class NetworkManagerLobby : NetworkManager
     public List<NetworkRoomPlayerLobby> RoomPlayers { get; } = new List<NetworkRoomPlayerLobby>();
     public List<NetworkGamePlayerLobby> GamePlayers { get; } = new List<NetworkGamePlayerLobby>();
 
-    public override void OnStartServer()
-    {
-        spawnPrefabs = Resources.LoadAll<GameObject>("SpawnablePrefabs").ToList();
-    }
+    //public override void OnStartServer()
+    //{
+    //    spawnPrefabs = Resources.LoadAll<GameObject>("SpawnablePrefabs").ToList();
+    //}
 
-    public override void OnStartClient()
-    {
-        var spawnablePrefabs = Resources.LoadAll<GameObject>("SpawnablePrefabs");
+    //public override void OnStartClient()
+    //{
+    //    var spawnablePrefabs = Resources.LoadAll<GameObject>("SpawnablePrefabs");
 
-        foreach (var prefab in spawnablePrefabs)
-        {
-            NetworkClient.RegisterPrefab(prefab);
-        }
-    }
+    //    foreach (var prefab in spawnablePrefabs)
+    //    {
+    //        NetworkClient.RegisterPrefab(prefab);
+    //    }
+    //}
 
     public override void OnClientConnect()
     {
@@ -93,7 +94,7 @@ public class NetworkManagerLobby : NetworkManager
 
     public override void OnServerDisconnect(NetworkConnectionToClient conn)
     {
-        if(conn != null)
+        if (conn != null)
         {
             var player = conn.identity.GetComponent<NetworkRoomPlayerLobby>();
 
@@ -115,7 +116,7 @@ public class NetworkManagerLobby : NetworkManager
 
     public void NotifyPlayersOfReadyState()
     {
-        foreach(var player in RoomPlayers)
+        foreach (var player in RoomPlayers)
         {
             player.HandleReadyToStart(IsReadyToStart());
         }
@@ -128,7 +129,7 @@ public class NetworkManagerLobby : NetworkManager
             return false;
         }
 
-        foreach(var player in RoomPlayers)
+        foreach (var player in RoomPlayers)
         {
             if (!player.isReady)
             {
@@ -153,7 +154,7 @@ public class NetworkManagerLobby : NetworkManager
         //    ServerChangeScene(_mapHandler.NextMap);
         //}
 
-        if(SceneManager.GetActiveScene().name == menuScene)
+        if (SceneManager.GetActiveScene().name == menuScene)
         {
             if (!IsReadyToStart())
             {
@@ -190,9 +191,6 @@ public class NetworkManagerLobby : NetworkManager
         {
             GameObject playerSpawnSystemInstance = Instantiate(_playerSpawnSystem);
             NetworkServer.Spawn(playerSpawnSystemInstance);
-
-            GameObject roundSystemInstance = Instantiate(_roundSystem);
-            NetworkServer.Spawn(roundSystemInstance);
         }
     }
 

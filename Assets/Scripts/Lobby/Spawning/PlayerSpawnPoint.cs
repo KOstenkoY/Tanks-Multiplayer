@@ -12,7 +12,7 @@ public class PlayerSpawnPoint : MonoBehaviour
         PlayerSpawnSystem.RemoveSpawnPoints(transform);
     }
 
-    // graphical display of spawn points
+    // graphical display of spawn points, drew a blue sphere
     /*private void OnDrawGizmos()
     {
         Gizmos.color = Color.blue;

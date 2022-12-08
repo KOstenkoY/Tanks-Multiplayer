@@ -6,42 +6,45 @@ public class ObjectPool : MonoBehaviour
 {
     public static ObjectPool SharedInstance;
 
-    private List<GameObject> _pooledObjects;
+    private List<GameObject> _pooledObjects = new List<GameObject>();
 
     [SerializeField] private GameObject _objectToPool;
 
-    [SerializeField] private int _amountToPool;
+    [SerializeField] private int _amountToPool = 1;
+
+    public bool IsEmpty => _pooledObjects.Count == _amountToPool;
 
     private void Awake()
     {
         SharedInstance = this;
     }
 
-    private void Start()
+    public void InitializePool()
     {
-        _pooledObjects = new List<GameObject>();
-
         GameObject tmp;
 
-        for(int i = 0; i < _amountToPool; i++)
+        for (int i = 0; i < _amountToPool; i++)
         {
             tmp = Instantiate(_objectToPool);
             tmp.SetActive(false);
-            
+
             _pooledObjects.Add(tmp);
         }
     }
 
     public GameObject GetPooledObject()
     {
-        for(int i = 0; i < _amountToPool; i++)
+        if(_pooledObjects.Count != 0)
         {
-            if (!_pooledObjects[i].activeInHierarchy)
+            for (int i = 0; i < _amountToPool; i++)
             {
-                return _pooledObjects[i];
+                if (!_pooledObjects[i].activeInHierarchy)
+                {
+                    return _pooledObjects[i];
+                }
             }
-        }
 
+        }
         return null;
     }
 }

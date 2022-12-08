@@ -4,45 +4,32 @@ using Mirror;
 
 public class PlayerWeapons : NetworkBehaviour
 {
-    [SyncVar, SerializeField] private float _bulletSpeed = 6;
-
     [SerializeField] private Transform _bulletSpawnPosition;
 
-    private void Start()
+    public override void OnStartAuthority()
     {
-        if (isClient && isLocalPlayer)
-        {
-            InputManager.Instance.SetWeapons(this);
-        }
+        InputManager.Instance.SetWeapons(this);
+
+        ObjectPool.SharedInstance.InitializePool();
     }
 
-    public void TryToFire()
+    public void Fire()
     {
-        // take bullet from object pool
         GameObject bullet = ObjectPool.SharedInstance.GetPooledObject();
 
         if (bullet != null)
         {
-            bullet.transform.position = _bulletSpawnPosition.position;
-            bullet.transform.rotation = _bulletSpawnPosition.rotation;
-
-            bullet.SetActive(true);
+            CmdFire(bullet);
         }
     }
 
     [Command]
     public void CmdFire(GameObject bullet)
     {
-        RpcFire(bullet);
-    }
+        // take bullet from object pool
+        bullet.transform.position = _bulletSpawnPosition.position;
+        bullet.transform.rotation = _bulletSpawnPosition.rotation;
 
-    [ClientRpc]
-    private void RpcFire(GameObject bullet)
-    {
-        // add velocity to the bullet
-        bullet.GetComponent<Rigidbody2D>().velocity = bullet.transform.forward * _bulletSpeed;
-
-        //  spawn the bullet on the Clients
-        NetworkServer.Spawn(bullet);
+        bullet.SetActive(true);
     }
 }

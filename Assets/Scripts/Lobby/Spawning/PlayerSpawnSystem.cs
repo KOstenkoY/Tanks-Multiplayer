@@ -11,6 +11,13 @@ public class PlayerSpawnSystem : NetworkBehaviour
 
     private int _nextIndex = 0;
 
+    //public HelperRandomNumbers helperRandomNumbers;
+
+    //private void Start()
+    //{
+    //    helperRandomNumbers = new HelperRandomNumbers(6);
+    //}
+
     public static void AddSpawnPoint(Transform transform)
     {
         _spawnPoints.Add(transform);
@@ -27,12 +34,6 @@ public class PlayerSpawnSystem : NetworkBehaviour
     {
         NetworkManagerLobby.OnServerReadied += SpawnPlayer;
     }
-
-    //public override void OnStartClient()
-    //{
-    //    InputManager.Add(ActionMapNames.Player);
-    //    InputManager.Controls.Player.Look.Enables();
-    //}
 
     [ServerCallback]
     private void OnDestroy()

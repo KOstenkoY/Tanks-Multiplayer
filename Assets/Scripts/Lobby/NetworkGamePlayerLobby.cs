@@ -33,6 +33,6 @@ public class NetworkGamePlayerLobby : NetworkBehaviour
     [Server]
     public void SetDisplayName(string displayName)
     {
-        this._displayName = displayName;
+        _displayName = displayName;
     }
 }

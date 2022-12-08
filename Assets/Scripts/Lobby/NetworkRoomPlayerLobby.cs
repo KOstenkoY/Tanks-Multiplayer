@@ -12,7 +12,7 @@ public class NetworkRoomPlayerLobby : NetworkBehaviour
 
     [SyncVar(hook = nameof(HandleDisplayNameChanged))]
     public string displayName = "Loading...";
-
+    
     [SyncVar(hook = nameof(HandleReadyStatusChanged))]
     public bool isReady = false;
 
@@ -34,9 +34,9 @@ public class NetworkRoomPlayerLobby : NetworkBehaviour
     {
         get
         {
-            if (Room != null)
+            if (_room != null)
             {
-                return _room;
+                return _room;  
             }
 
             return _room = NetworkManager.singleton as NetworkManagerLobby;
@@ -64,7 +64,7 @@ public class NetworkRoomPlayerLobby : NetworkBehaviour
     {
         if (!isOwned)
         {
-            foreach(var  player in Room.RoomPlayers)
+            foreach (var player in Room.RoomPlayers)
             {
                 if (player.isOwned)
                 {

@@ -1,24 +1,24 @@
 using Mirror;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BrickWall : NetworkBehaviour
 {
-    public void RemoveWall(GameObject go)
+    public void RemoveWall(GameObject wall)
     {
-        CmdRemoveWall(go);
-
-        Destroy(go);
+        CmdRemoveWall(wall);
     }
 
     [Command]
-    private void CmdRemoveWall(GameObject go)
+    private void CmdRemoveWall(GameObject wall)
     {
-        RpcRemoveWall(go);
+        RpcRemoveWall(wall);
     }
 
     [ClientRpc]
-    private void RpcRemoveWall(GameObject go) => NetworkServer.UnSpawn(go);
-    
+    public void RpcRemoveWall(GameObject wall)
+    {
+        NetworkServer.UnSpawn(wall);
+
+        Destroy(wall);
+    }
 }

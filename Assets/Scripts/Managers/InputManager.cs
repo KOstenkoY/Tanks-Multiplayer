@@ -11,12 +11,7 @@ public class InputManager : Singleton<InputManager>
 
     private float _rotationZ;
 
-    private Vector2 _direction = new Vector2();
-
-    private void Start()
-    {
-        _direction = new Vector2(0, 0);
-    }
+    private Vector2 _direction = Vector2.zero;
 
     private void FixedUpdate()
     {
@@ -101,6 +96,6 @@ public class InputManager : Singleton<InputManager>
 
     public void OnFireButtonDown()
     {
-        _playerWeapons.TryToFire();
+        _playerWeapons.Fire();
     }
 }
