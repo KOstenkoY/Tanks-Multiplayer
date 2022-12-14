@@ -43,10 +43,10 @@ GameObject:
   - component: {fileID: 6551465784253049550}
   - component: {fileID: 6551465784253049545}
   - component: {fileID: 6551465784253049542}
+  - component: {fileID: 8205378635530941876}
   - component: {fileID: 5545246694865887348}
   - component: {fileID: 6551465784253049543}
   - component: {fileID: 6551465784253049540}
-  - component: {fileID: 8205378635530941876}
   m_Layer: 0
   m_Name: 'Tank '
   m_TagString: Player
@@ -191,6 +191,27 @@ MonoBehaviour:
   showGizmos: 0
   showOverlay: 0
   overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
+--- !u!50 &8205378635530941876
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6551465784253049559}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4
 --- !u!114 &5545246694865887348
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -238,24 +259,5 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   _bulletSpawnPosition: {fileID: 6551465784253049555}
---- !u!50 &8205378635530941876
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6551465784253049559}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 0
-  m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 4
+  _bulletPrefab: {fileID: 1571578329137374667, guid: 25c840c1e248f144ebb9862c16bf5c79, type: 3}
+  _bulletSpeed: 5

@@ -9,12 +9,9 @@ public class Bullet : NetworkBehaviour
 
     [SerializeField] private int _damage = 1;
 
-    [SyncVar, SerializeField] private float _bulletSpeed = 1.5f;
+    [SyncVar, SerializeField] private float _bulletSpeed = 2;
 
     private float _gravityScale = 0;
-
-    // count of bullets that player get back after bullet got into something
-    private int _countBulletsReturn = 1;
 
     public override void OnStartAuthority()
     {
@@ -23,42 +20,36 @@ public class Bullet : NetworkBehaviour
         _rigidbody.gravityScale = _gravityScale;
     }
 
-    private void Update()
-    {
-        CmdBulletMove();
-    }
+    //private void FixedUpdate()
+    //{
+    //    CmdBulletMove();
+    //}
 
-    [Command]
-    private void CmdBulletMove()
-    {
-        transform.Translate(new Vector2(0, _bulletSpeed * Time.deltaTime));
-    }
+    //[Command(requiresAuthority = false)]
+    //private void CmdBulletMove()
+    //{
+    //    _rigidbody.velocity = _bulletSpeed * Vector2.up;
+    //}
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
+        gameObject.SetActive(false);
+
         // compare tags
-        if (collision.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("Player"))
         {
-            collision.GetComponent<PlayerHealthController>().TakeDamage(_damage);
+            collision.gameObject.GetComponent<PlayerHealthController>().TakeDamage(_damage);
         }
-        else if (collision.CompareTag("BrickWall"))
+        else if (collision.gameObject.CompareTag("BrickWall"))
         {
-            collision.GetComponent<BrickWall>().RemoveWall(collision.gameObject);
+            collision.gameObject.GetComponent<BrickWall>().CmdRemoveWall();
         }
-        else if (collision.CompareTag("Wall"))
+        else if (collision.gameObject.CompareTag("Wall"))
         {
         }
         else
         {
             throw new Exception("Bullet hit in uncertain object");
         }
-
-        CmdRemoveBullet(this.gameObject);
-    }
-
-    [Command]
-    private void CmdRemoveBullet(GameObject bullet)
-    {
-        bullet.SetActive(false);
     }
 }

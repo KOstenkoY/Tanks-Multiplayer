@@ -3,22 +3,17 @@ using UnityEngine;
 
 public class BrickWall : NetworkBehaviour
 {
-    public void RemoveWall(GameObject wall)
+    [ClientRpc]
+    private void RemoveWall()
     {
-        CmdRemoveWall(wall);
+        NetworkServer.UnSpawn(this.gameObject);
+
+        Destroy(this.gameObject);
     }
 
     [Command]
-    private void CmdRemoveWall(GameObject wall)
+    public void CmdRemoveWall()
     {
-        RpcRemoveWall(wall);
-    }
-
-    [ClientRpc]
-    public void RpcRemoveWall(GameObject wall)
-    {
-        NetworkServer.UnSpawn(wall);
-
-        Destroy(wall);
+        RemoveWall();
     }
 }

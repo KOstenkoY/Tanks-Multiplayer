@@ -6,7 +6,7 @@ public class PlayerHealthController : NetworkBehaviour
 {
     [SerializeField] private int _maxHealth = 3;
 
-    [SyncVar(hook = nameof(OnHealthChanged))]
+    [SyncVar(hook = nameof(HealthChanged))]
     private int _health = 0;
 
     public bool isDead => _health == 0;
@@ -16,7 +16,7 @@ public class PlayerHealthController : NetworkBehaviour
         _health = _maxHealth;
     }
 
-    private void OnHealthChanged(int oldValue, int newValue)
+    private void HealthChanged(int oldValue, int newValue)
     {
         if(oldValue > newValue)
         {
@@ -27,21 +27,16 @@ public class PlayerHealthController : NetworkBehaviour
             throw new ArgumentException("Incorrect argument value");
         }
     }
-
+    
+    [Server]
     public void TakeDamage(int damage)
     {
-        OnHealthChanged(_health, _health - damage);
+        HealthChanged(_health, _health - damage);
 
         if (_health <= 0)
         {
-            CmdTakeDamage();
+            RpcHandleDeath();
         }
-    }
-
-    [Command]
-    private void CmdTakeDamage()
-    {
-        RpcHandleDeath();
     }
 
     [ClientRpc]

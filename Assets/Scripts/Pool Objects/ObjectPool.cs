@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,7 +11,7 @@ public class ObjectPool : MonoBehaviour
 
     [SerializeField] private int _amountToPool = 1;
 
-    public bool IsEmpty => _pooledObjects.Count == _amountToPool;
+    public GameObject this[int i] => _pooledObjects[i];
 
     private void Awake()
     {
@@ -34,7 +33,7 @@ public class ObjectPool : MonoBehaviour
 
     public GameObject GetPooledObject()
     {
-        if(_pooledObjects.Count != 0)
+        if (_pooledObjects.Count != 0)
         {
             for (int i = 0; i < _amountToPool; i++)
             {
@@ -43,8 +42,8 @@ public class ObjectPool : MonoBehaviour
                     return _pooledObjects[i];
                 }
             }
-
         }
+
         return null;
     }
 }

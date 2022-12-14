@@ -1,6 +1,4 @@
 using Mirror;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 // also must be added component Network Rigidbody2D
@@ -19,27 +17,14 @@ public class PlayerController : NetworkBehaviour
         InputManager.Instance.SetPlayer(this);
     }
 
+    [Client]
     public void MovePlayer(Vector2 direction)
     {
         _rigidbody.velocity = direction * _speedForce;
-
-        CmdMovePlayer(direction);
     }
 
-    [Command]
-    private void CmdMovePlayer(Vector2 direction)
-    {
-        _rigidbody.velocity = direction * _speedForce;
-    }
-
+    [Client]
     public void StopMovePlayer()
-    {
-        _rigidbody.velocity = Vector2.zero;
-        CmdStopMovePlayer();
-    }
-
-    [Command]
-    private void CmdStopMovePlayer()
     {
         _rigidbody.velocity = Vector2.zero;
     }

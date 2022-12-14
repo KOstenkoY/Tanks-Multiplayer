@@ -9,6 +9,8 @@ public class Singleton<T> : MonoBehaviour
 
     private static readonly object _threadLock = new object();
 
+    private bool _persistance = true;
+
     public static T Instance
     {
         get
