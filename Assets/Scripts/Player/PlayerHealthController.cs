@@ -28,7 +28,6 @@ public class PlayerHealthController : NetworkBehaviour
         }
     }
     
-    [Server]
     public void TakeDamage(int damage)
     {
         HealthChanged(_health, _health - damage);

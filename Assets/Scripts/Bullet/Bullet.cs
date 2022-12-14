@@ -9,8 +9,6 @@ public class Bullet : NetworkBehaviour
 
     [SerializeField] private int _damage = 1;
 
-    [SyncVar, SerializeField] private float _bulletSpeed = 2;
-
     private float _gravityScale = 0;
 
     public override void OnStartAuthority()
@@ -19,17 +17,6 @@ public class Bullet : NetworkBehaviour
 
         _rigidbody.gravityScale = _gravityScale;
     }
-
-    //private void FixedUpdate()
-    //{
-    //    CmdBulletMove();
-    //}
-
-    //[Command(requiresAuthority = false)]
-    //private void CmdBulletMove()
-    //{
-    //    _rigidbody.velocity = _bulletSpeed * Vector2.up;
-    //}
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -42,7 +29,7 @@ public class Bullet : NetworkBehaviour
         }
         else if (collision.gameObject.CompareTag("BrickWall"))
         {
-            collision.gameObject.GetComponent<BrickWall>().CmdRemoveWall();
+            collision.gameObject.GetComponent<BrickWall>().RemoveWall();
         }
         else if (collision.gameObject.CompareTag("Wall"))
         {

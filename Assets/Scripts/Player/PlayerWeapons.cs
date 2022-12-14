@@ -10,29 +10,25 @@ public class PlayerWeapons : NetworkBehaviour
     // bullet Prefab
     [SerializeField] private GameObject _bulletPrefab = null;
 
-    [SyncVar, SerializeField] private float _bulletSpeed = 5f;
+    [SyncVar, SerializeField] private float _bulletSpeed = 4f;
 
     // list with our Bullets
     private List<GameObject> _bulletsList = new List<GameObject>();
 
-    // basic count of our bullets
-    private int _countBullets = 1;
-
     public override void OnStartAuthority()
     {
         InputManager.Instance.SetWeapons(this);
-
-        InitializeBullets();
     }
+
 
     [Command]
     public void CmdFire()
     {
-        RpcFire();
+        Fire();
     }
 
     [ClientRpc]
-    public void RpcFire()
+    public void Fire()
     {
         GameObject bullet = GetBullet();
 
@@ -45,19 +41,13 @@ public class PlayerWeapons : NetworkBehaviour
 
             bullet.GetComponent<Rigidbody2D>().velocity = _bulletSpeed * _bulletSpawnPosition.up;
         }
-
-    }
-
-    public void InitializeBullets()
-    {
-        GameObject bullet;
-
-        for (int i = 0; i < _countBullets; i++)
+        else if (bullet == null && _bulletsList.Count == 0)
         {
-            bullet = Instantiate(_bulletPrefab);
-            bullet.SetActive(false);
+            bullet = Instantiate(_bulletPrefab, _bulletSpawnPosition.position, _bulletSpawnPosition.rotation);
 
             _bulletsList.Add(bullet);
+
+            bullet.GetComponent<Rigidbody2D>().velocity = _bulletSpeed * _bulletSpawnPosition.up;
         }
     }
 
