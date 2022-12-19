@@ -47,6 +47,7 @@ GameObject:
   - component: {fileID: 5545246694865887348}
   - component: {fileID: 6551465784253049543}
   - component: {fileID: 6551465784253049540}
+  - component: {fileID: 7304019999773966581}
   m_Layer: 0
   m_Name: 'Tank '
   m_TagString: Player
@@ -226,7 +227,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncDirection: 0
   syncMode: 0
-  syncInterval: 0.1
+  syncInterval: 0
 --- !u!114 &6551465784253049543
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -241,7 +242,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncDirection: 0
   syncMode: 0
-  syncInterval: 0.1
+  syncInterval: 0
   _speedForce: 1.5
 --- !u!114 &6551465784253049540
 MonoBehaviour:
@@ -257,7 +258,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncDirection: 0
   syncMode: 0
-  syncInterval: 0.1
+  syncInterval: 0
   _bulletSpawnPosition: {fileID: 6551465784253049555}
   _bulletPrefab: {fileID: 1571578329137374667, guid: 25c840c1e248f144ebb9862c16bf5c79, type: 3}
   _bulletSpeed: 4
+--- !u!114 &7304019999773966581
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6551465784253049559}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 268cd6eb7eed67140bbfabe1f26ffb89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  _maxHealth: 3

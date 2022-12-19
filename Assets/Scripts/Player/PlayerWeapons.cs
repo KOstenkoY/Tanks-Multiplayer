@@ -20,7 +20,6 @@ public class PlayerWeapons : NetworkBehaviour
         InputManager.Instance.SetWeapons(this);
     }
 
-
     [Command]
     public void CmdFire()
     {
@@ -28,7 +27,7 @@ public class PlayerWeapons : NetworkBehaviour
     }
 
     [ClientRpc]
-    public void Fire()
+    private void Fire()
     {
         GameObject bullet = GetBullet();
 

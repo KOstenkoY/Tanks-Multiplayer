@@ -18,20 +18,20 @@ public class Bullet : NetworkBehaviour
         _rigidbody.gravityScale = _gravityScale;
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         gameObject.SetActive(false);
 
         // compare tags
-        if (collision.gameObject.CompareTag("Player"))
+        if (collision.CompareTag("Player"))
         {
-            collision.gameObject.GetComponent<PlayerHealthController>().TakeDamage(_damage);
+            collision.GetComponent<PlayerHealthController>()?.TakeDamage(_damage);
         }
-        else if (collision.gameObject.CompareTag("BrickWall"))
+        else if (collision.CompareTag("BrickWall"))
         {
-            collision.gameObject.GetComponent<BrickWall>().RemoveWall();
+            collision.GetComponent<BrickWall>()?.RemoveWall();
         }
-        else if (collision.gameObject.CompareTag("Wall"))
+        else if (collision.CompareTag("Wall"))
         {
         }
         else

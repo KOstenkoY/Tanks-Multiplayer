@@ -1,13 +1,10 @@
 using Mirror;
-using UnityEngine;
 
 public class BrickWall : NetworkBehaviour
 {
     public void RemoveWall()
     {
         Destroy(gameObject);
-
-        CmdRemoveWall();
     }
 
     [Command]

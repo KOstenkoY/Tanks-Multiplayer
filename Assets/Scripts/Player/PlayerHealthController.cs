@@ -1,15 +1,18 @@
-using UnityEngine;
 using Mirror;
 using System;
+using UnityEngine;
 
 public class PlayerHealthController : NetworkBehaviour
 {
-    [SerializeField] private int _maxHealth = 3;
+    // must be equals count of Healt images (UI)
+    [SyncVar, SerializeField] private int _maxHealth = 3;
 
     [SyncVar(hook = nameof(HealthChanged))]
-    private int _health = 0;
+    public int _health = 0;
 
     public bool isDead => _health == 0;
+
+    public static Action OnHealthHandler;
 
     public override void OnStartServer()
     {
@@ -30,17 +33,39 @@ public class PlayerHealthController : NetworkBehaviour
     
     public void TakeDamage(int damage)
     {
-        HealthChanged(_health, _health - damage);
-
-        if (_health <= 0)
+        if (isOwned)
         {
-            RpcHandleDeath();
+            OnHealthHandler?.Invoke();
+
+            _health -= damage;
+
+            CmdHandleDeath();
+
+            if (_health <= 0)
+            {
+                Destroy(gameObject);
+            }
         }
     }
 
-    [ClientRpc]
+    [Command]
+    private void CmdHandleDeath()
+    {
+        RpcHandleDeath();
+    }
+
+    [TargetRpc]
     private void RpcHandleDeath()
     {
-        gameObject.SetActive(false);
+        if(_health <= 0)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            gameObject.SetActive(false);
+
+            GameManager.Instance.SpawnPlayer(gameObject);
+        }
     }
 }

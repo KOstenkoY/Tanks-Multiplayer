@@ -96,4 +96,6 @@ public class InputManager : Singleton<InputManager>
     {
         _playerWeapons.CmdFire();
     }
+
+    public void ResetRotation() => _rotationZ = 0;
 }
