@@ -278,3 +278,4 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   _maxHealth: 3
+  _health: 0

@@ -34,6 +34,7 @@ public class NetworkManagerLobby : NetworkManager
     public List<NetworkRoomPlayerLobby> RoomPlayers { get; } = new List<NetworkRoomPlayerLobby>();
     public List<NetworkGamePlayerLobby> GamePlayers { get; } = new List<NetworkGamePlayerLobby>();
 
+    // load resources from code 
     //public override void OnStartServer()
     //{
     //    spawnPrefabs = Resources.LoadAll<GameObject>("SpawnablePrefabs").ToList();
@@ -121,13 +122,18 @@ public class NetworkManagerLobby : NetworkManager
             player.HandleReadyToStart(IsReadyToStart());
         }
     }
+    /// <summary>
+    /// /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /// </summary>
+    public void NotifyPlayersOfChooseColor()
+    {
+        
+    }
 
     private bool IsReadyToStart()
     {
         if (numPlayers < _minPlayers)
-        {
             return false;
-        }
 
         foreach (var player in RoomPlayers)
         {
@@ -193,7 +199,6 @@ public class NetworkManagerLobby : NetworkManager
             NetworkServer.Spawn(playerSpawnSystemInstance);
         }
     }
-
     public override void OnServerReady(NetworkConnectionToClient conn)
     {
         base.OnServerReady(conn);

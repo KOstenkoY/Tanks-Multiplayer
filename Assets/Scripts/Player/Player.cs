@@ -4,8 +4,9 @@ using Mirror;
 
 public class Player : NetworkBehaviour
 {
-    [SyncVar(hook = nameof(OnNameChanged))]
     private string _playerName = null;
+
+    public string PlayerName { get { return _playerName; } set { _playerName = value; } }
 
     public void OnNameChanged(string oldName, string newName)
     {

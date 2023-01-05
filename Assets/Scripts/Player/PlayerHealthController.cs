@@ -14,7 +14,7 @@ public class PlayerHealthController : NetworkBehaviour
 
     public static Action OnHealthHandler;
 
-    public override void OnStartServer()
+    public override void OnStartClient()
     {
         _health = _maxHealth;
     }
@@ -34,38 +34,33 @@ public class PlayerHealthController : NetworkBehaviour
     public void TakeDamage(int damage)
     {
         if (isOwned)
-        {
             OnHealthHandler?.Invoke();
 
+        if (isClient)
+        {
             _health -= damage;
 
-            CmdHandleDeath();
-
-            if (_health <= 0)
-            {
-                Destroy(gameObject);
-            }
+            CmdHandleDeath(gameObject);
         }
     }
 
     [Command]
-    private void CmdHandleDeath()
+    private void CmdHandleDeath(GameObject player)
     {
-        RpcHandleDeath();
+        if (_health <= 0)
+            NetworkServer.Destroy(player);
+        else
+            RpcHandleDeath();
     }
 
-    [TargetRpc]
+    [ClientRpc]
     private void RpcHandleDeath()
     {
-        if(_health <= 0)
-        {
-            Destroy(gameObject);
-        }
-        else
-        {
-            gameObject.SetActive(false);
+        gameObject.SetActive(false);
 
+        if(isOwned)
             GameManager.Instance.SpawnPlayer(gameObject);
-        }
+
+        gameObject.SetActive(true);
     }
 }

@@ -52,20 +52,21 @@ public class GameManager : Singleton<GameManager>
 
     public void SpawnPlayer(GameObject player)
     {
+        if (player == null)
+            return;
+
         player.transform.position = _spawnPositions.GetChild(_helperRandomIndex[_index]).position;
         player.transform.rotation = _spawnPositions.GetChild(_helperRandomIndex[_index]).rotation;
 
         InputManager.Instance.ResetRotation();
 
-        StartCoroutine(DelayBeforeSpawning(player));
+        StartCoroutine(DelayBeforeSpawning());
 
         _index++;
     }
 
-    private IEnumerator DelayBeforeSpawning(GameObject player)
+    private IEnumerator DelayBeforeSpawning()
     {
         yield return new WaitForSeconds(_delayBeforeSpawning);
-
-        player.SetActive(true);
     }
 }

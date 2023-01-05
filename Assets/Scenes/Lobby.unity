@@ -524,6 +524,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Canvas
       objectReference: {fileID: 0}
+    - target: {fileID: 7932981248024713215, guid: 2dd8a7b881da6e041b3e0f39a1da8435, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7932981248107753515, guid: 2dd8a7b881da6e041b3e0f39a1da8435, type: 3}
       propertyPath: m_SizeDelta.x
       value: 800
@@ -566,7 +570,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7932981248296340580, guid: 2dd8a7b881da6e041b3e0f39a1da8435, type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7932981248296340580, guid: 2dd8a7b881da6e041b3e0f39a1da8435, type: 3}
       propertyPath: m_OnEndEdit.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
@@ -598,7 +602,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7932981248296340580, guid: 2dd8a7b881da6e041b3e0f39a1da8435, type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
-      value: Name
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 7932981248296340580, guid: 2dd8a7b881da6e041b3e0f39a1da8435, type: 3}
       propertyPath: m_OnEndEdit.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName

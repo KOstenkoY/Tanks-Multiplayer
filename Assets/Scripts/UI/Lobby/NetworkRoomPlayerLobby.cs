@@ -8,6 +8,7 @@ public class NetworkRoomPlayerLobby : NetworkBehaviour
     [SerializeField] private GameObject _lobbyUI = null;
     [SerializeField] private Text[] _playerNameTexts = new Text[5];
     [SerializeField] private Text[] _playerReadyTexts = new Text[5];
+    //[SerializeField] private Toggle[] _playerUniqueColor = new Toggle[6];
     [SerializeField] private Button _startGameButton = null;
 
     [SyncVar(hook = nameof(HandleDisplayNameChanged))]
@@ -15,6 +16,11 @@ public class NetworkRoomPlayerLobby : NetworkBehaviour
     
     [SyncVar(hook = nameof(HandleReadyStatusChanged))]
     public bool isReady = false;
+    
+    [SyncVar(hook = nameof(HandleColorStatusChanged))]
+    public Color playerColor = Color.white;
+
+    private Color _baseColor = Color.white;
 
     private bool _isLeader;
 
@@ -59,6 +65,7 @@ public class NetworkRoomPlayerLobby : NetworkBehaviour
 
     public void HandleDisplayNameChanged(string oldValue, string newValue) => UpdateDisplay();
     public void HandleReadyStatusChanged(bool oldValue, bool newValue) => UpdateDisplay();
+    public void HandleColorStatusChanged(Color oldValue, Color newValue) => UpdateDisplay();
 
     private void UpdateDisplay()
     {
@@ -80,6 +87,7 @@ public class NetworkRoomPlayerLobby : NetworkBehaviour
         {
             _playerNameTexts[i].text = "Waiting For Player...";
             _playerReadyTexts[i].text = string.Empty;
+            //_playerUniqueColor[i].GetComponentInChildren<Image>().color = _baseColor;
         }
 
         for (int i = 0; i < Room.RoomPlayers.Count; i++)
@@ -88,6 +96,7 @@ public class NetworkRoomPlayerLobby : NetworkBehaviour
             _playerReadyTexts[i].text = Room.RoomPlayers[i].isReady ?
                 "<color=green>Ready</color>" :
                 "<color=red>Not Ready</color>";
+            //_playerUniqueColor[i].GetComponentInChildren<Image>().color = Room.RoomPlayers[i].playerColor;
         }
     }
 
@@ -106,12 +115,25 @@ public class NetworkRoomPlayerLobby : NetworkBehaviour
     }
 
     [Command]
+    private void CmdSetDisplayColor()
+    {
+        // logic for set color from lobby
+
+    }
+
+    [Command]
     public void CmdReadyUp()
     {
         isReady = !isReady;
 
         Room.NotifyPlayersOfReadyState();
     }
+
+    //[Command]
+    //public void CmdChooseColor(Color color)
+    //{
+    //    playerColor = color;
+    //}
 
     [Command]
     public void CmdStartGame()

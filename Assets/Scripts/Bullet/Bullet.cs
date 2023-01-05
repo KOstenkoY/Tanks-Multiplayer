@@ -22,6 +22,8 @@ public class Bullet : NetworkBehaviour
     {
         gameObject.SetActive(false);
 
+        //CmdDestroyBullet();
+
         // compare tags
         if (collision.CompareTag("Player"))
         {
@@ -39,4 +41,16 @@ public class Bullet : NetworkBehaviour
             throw new Exception("Bullet hit in uncertain object");
         }
     }
+
+    //[Command]
+    //private void CmdDestroyBullet()
+    //{
+    //    RpcDestroyBullet();
+    //}  
+
+    //[ClientRpc]
+    //private void RpcDestroyBullet()
+    //{
+    //    gameObject.SetActive(false);
+    //}
 }
