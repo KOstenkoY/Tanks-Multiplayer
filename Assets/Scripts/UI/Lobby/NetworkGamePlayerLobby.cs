@@ -3,7 +3,9 @@ using Mirror;
 public class NetworkGamePlayerLobby : NetworkBehaviour
 {
     [SyncVar]
-    private string _displayName = "Loading...";
+    public string _displayName = "Loading...";
+
+    public string DisplayName => _displayName;
 
     private NetworkManagerLobby _room;
 

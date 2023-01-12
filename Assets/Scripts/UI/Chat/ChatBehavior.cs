@@ -11,6 +11,19 @@ public class ChatBehavior : NetworkBehaviour
 
     public static event Action<string> OnMessage;
 
+    private NetworkManagerLobby _room;
+
+    private NetworkManagerLobby Room
+    {
+        get
+        {
+            if (_room != null)
+                return _room;
+
+            return _room = NetworkManager.singleton as NetworkManagerLobby;
+        }
+    }
+
     public override void OnStartClient()
     {
         OnMessage += HandleNewMessage;
@@ -49,10 +62,17 @@ public class ChatBehavior : NetworkBehaviour
     [Command(requiresAuthority = false)]
     private void CmdSendMessage(string message)
     {
-        // Set Plyaer name from firebase
-        RpcHandleMessage($"[{0}]: {message}");
+        try
+        {
+            //RpcHandleMessage($"[{Room.GamePlayers[OnGetGamePlayerConnectionId.Invoke()].DisplayName}]: {message}");
+        }
+        catch
+        {
+            throw new Exception("Current name isn't exist");
+        }
     }
 
+    [ClientRpc]
     private void RpcHandleMessage(string message)
     {
         OnMessage?.Invoke($"\n{message}");

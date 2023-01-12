@@ -14,6 +14,7 @@ public class NetworkManagerLobby : NetworkManager
 
     [Header("Room")]
     [SerializeField] private NetworkRoomPlayerLobby _roomPlayerPrefab = null;
+    [SerializeField] private ColorHandler _playerColorHandlerPref = null;
 
     //[Header("Maps")]
     //[SerializeField] private int _numberOfRounds = 1;
@@ -122,12 +123,13 @@ public class NetworkManagerLobby : NetworkManager
             player.HandleReadyToStart(IsReadyToStart());
         }
     }
-    /// <summary>
-    /// /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    /// </summary>
-    public void NotifyPlayersOfChooseColor()
+
+    public void NotifyPlayerChangeColor()
     {
-        
+        foreach(var player in RoomPlayers)
+        {
+            player.UpdateDisplay();
+        }
     }
 
     private bool IsReadyToStart()
@@ -199,10 +201,19 @@ public class NetworkManagerLobby : NetworkManager
             NetworkServer.Spawn(playerSpawnSystemInstance);
         }
     }
+
     public override void OnServerReady(NetworkConnectionToClient conn)
     {
         base.OnServerReady(conn);
 
         OnServerReadied?.Invoke(conn);
+    }
+
+    public ColorHandler SetColorHandler()
+    {
+        if (_playerColorHandlerPref != null)
+            return _playerColorHandlerPref;
+        else
+            throw new NullReferenceException("Foget set instance to _playerColorHandlePrefab");
     }
 }
