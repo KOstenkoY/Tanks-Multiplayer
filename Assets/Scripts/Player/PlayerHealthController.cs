@@ -1,9 +1,13 @@
 using Mirror;
 using System;
+using System.Threading.Tasks;
+using System.Collections;
 using UnityEngine;
 
 public class PlayerHealthController : NetworkBehaviour
 {
+    [SerializeField] private float _delayBeforeSpawning = 0.5f;
+
     // must be equals count of Healt images (UI)
     [SyncVar, SerializeField] private int _maxHealth = 3;
 
@@ -60,6 +64,15 @@ public class PlayerHealthController : NetworkBehaviour
 
         if(isOwned)
             GameManager.Instance.SpawnPlayer(gameObject);
+
+        DelayBeforeSpawning(_delayBeforeSpawning);
+
+        //gameObject.SetActive(true);
+    }
+
+    private async void DelayBeforeSpawning(float milliseconds)
+    {
+        await Task.Delay((int)(milliseconds * 1000));
 
         gameObject.SetActive(true);
     }

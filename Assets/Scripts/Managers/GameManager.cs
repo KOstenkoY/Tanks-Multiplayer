@@ -13,8 +13,6 @@ public class GameManager : Singleton<GameManager>
     // the must be a strict sequence images
     [SerializeField] private List<Image> _healthImages;
 
-    [SerializeField] private float _delayBeforeSpawning = 0.5f;
-
     private HelperRandomNumbers _helperRandomIndex;
     private int _index = 0;
 
@@ -60,13 +58,8 @@ public class GameManager : Singleton<GameManager>
 
         InputManager.Instance.ResetRotation();
 
-        StartCoroutine(DelayBeforeSpawning());
+        //StartCoroutine(DelayBeforeSpawning());
 
         _index++;
-    }
-
-    private IEnumerator DelayBeforeSpawning()
-    {
-        yield return new WaitForSeconds(_delayBeforeSpawning);
     }
 }

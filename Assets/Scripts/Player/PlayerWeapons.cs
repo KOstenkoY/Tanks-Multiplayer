@@ -7,13 +7,15 @@ public class PlayerWeapons : NetworkBehaviour
 {
     [SerializeField] private Transform _bulletSpawnPosition;
 
-    // bullet Prefab
-    [SerializeField] private GameObject _bulletPrefab = null;
+    [SerializeField] private Bullet _bulletPrefab = null;
 
     [SyncVar, SerializeField] private float _bulletSpeed = 4f;
 
     // list with our Bullets
     private List<GameObject> _bulletsList = new List<GameObject>();
+
+    // delay before next shooting after bullet hit something
+    private float _delayBeforeNextShoot = 0.7f;
 
     public override void OnStartAuthority()
     {
@@ -23,11 +25,11 @@ public class PlayerWeapons : NetworkBehaviour
     [Command]
     public void CmdFire()
     {
-        Fire();
+        RpcFire();
     }
 
     [ClientRpc]
-    private void Fire()
+    private void RpcFire()
     {
         GameObject bullet = GetBullet();
 
@@ -42,7 +44,7 @@ public class PlayerWeapons : NetworkBehaviour
         }
         else if (bullet == null && _bulletsList.Count == 0)
         {
-            bullet = Instantiate(_bulletPrefab, _bulletSpawnPosition.position, _bulletSpawnPosition.rotation);
+            bullet = Instantiate(_bulletPrefab.transform.gameObject, _bulletSpawnPosition.position, _bulletSpawnPosition.rotation);
 
             _bulletsList.Add(bullet);
 
