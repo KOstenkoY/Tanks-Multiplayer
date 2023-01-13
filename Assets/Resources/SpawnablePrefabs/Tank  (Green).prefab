@@ -261,7 +261,8 @@ MonoBehaviour:
   syncInterval: 0
   _bulletSpawnPosition: {fileID: 4559516695028373663}
   _bulletPrefab: {fileID: 6084408937238953908, guid: 25c840c1e248f144ebb9862c16bf5c79, type: 3}
-  _bulletSpeed: 4
+  _bulletSpeed: 4.6
+  _delayBeforeNextShoot: 0.7
 --- !u!114 &3411390385428792596
 MonoBehaviour:
   m_ObjectHideFlags: 0

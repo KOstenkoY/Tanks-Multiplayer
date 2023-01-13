@@ -23,18 +23,8 @@ public class PlayerHealthController : NetworkBehaviour
         _health = _maxHealth;
     }
 
-    private void HealthChanged(int oldValue, int newValue)
-    {
-        if(oldValue > newValue)
-        {
-            _health = newValue;
-        }
-        else
-        {
-            throw new ArgumentException("Incorrect argument value");
-        }
-    }
-    
+    private void HealthChanged(int oldValue, int newValue) {}
+
     public void TakeDamage(int damage)
     {
         if (isOwned)
@@ -42,15 +32,15 @@ public class PlayerHealthController : NetworkBehaviour
 
         if (isClient)
         {
-            _health -= damage;
-
-            CmdHandleDeath(gameObject);
+            CmdHandleDeath(gameObject, damage);
         }
     }
 
     [Command]
-    private void CmdHandleDeath(GameObject player)
+    private void CmdHandleDeath(GameObject player, int damage)
     {
+        _health -= damage;
+
         if (_health <= 0)
             NetworkServer.Destroy(player);
         else

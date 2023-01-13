@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
@@ -15,11 +16,16 @@ public class PlayerWeapons : NetworkBehaviour
     private List<GameObject> _bulletsList = new List<GameObject>();
 
     // delay before next shooting after bullet hit something
-    private float _delayBeforeNextShoot = 0.7f;
+    [SerializeField] private float _delayBeforeNextShoot = 0.7f;
+
+    // when this flag equals true, we can shoot 
+    private bool _canUse = true;
 
     public override void OnStartAuthority()
     {
         InputManager.Instance.SetWeapons(this);
+
+        _canUse = true;
     }
 
     [Command]
@@ -31,6 +37,13 @@ public class PlayerWeapons : NetworkBehaviour
     [ClientRpc]
     private void RpcFire()
     {
+        if (!_canUse)
+            return;
+        else
+            _canUse = false;
+
+        WaitBeforeNextShoot(_delayBeforeNextShoot);
+
         GameObject bullet = GetBullet();
 
         if (bullet != null)
@@ -68,5 +81,12 @@ public class PlayerWeapons : NetworkBehaviour
         }
 
         return null;
+    }
+
+    private async void WaitBeforeNextShoot(float milliseconds)
+    {
+        await Task.Delay((int)(milliseconds * 1000));
+
+        _canUse = true;
     }
 }
