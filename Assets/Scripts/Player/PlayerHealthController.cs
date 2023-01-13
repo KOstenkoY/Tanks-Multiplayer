@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class PlayerHealthController : NetworkBehaviour
 {
-    [SerializeField] private float _delayBeforeSpawning = 0.5f;
+    [SyncVar, SerializeField] private float _delayBeforeSpawning = 0.5f;
 
     // must be equals count of Healt images (UI)
     [SyncVar, SerializeField] private int _maxHealth = 3;

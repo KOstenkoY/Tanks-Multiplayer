@@ -124,14 +124,6 @@ public class NetworkManagerLobby : NetworkManager
         }
     }
 
-    public void NotifyPlayerChangeColor()
-    {
-        foreach(var player in RoomPlayers)
-        {
-            player.UpdateDisplay();
-        }
-    }
-
     private bool IsReadyToStart()
     {
         if (numPlayers < _minPlayers)

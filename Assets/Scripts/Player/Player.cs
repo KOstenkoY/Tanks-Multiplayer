@@ -1,15 +1,21 @@
 using System;
 using UnityEngine;
-using Mirror;
 
-public class Player : NetworkBehaviour
+public class Player : MonoBehaviour
 {
     private string _playerName = null;
 
-    private int _serverId;
-
     public string PlayerName { get { return _playerName; } set { _playerName = value; } }
-    public int ServerId { get { return _serverId; } set { _serverId = value; } }
+    
+    private void Start()
+    {
+        ChatBehavior.OnGetPlayerName += GetPlayerName;
+    }
+
+    private void OnDisable()
+    {
+        ChatBehavior.OnGetPlayerName -= GetPlayerName;
+    }
 
     public void OnNameChanged(string oldName, string newName)
     {
@@ -23,9 +29,8 @@ public class Player : NetworkBehaviour
         }
     }
 
-    [Command]
-    public void CmdSetupPlayer(string name)
+    private string GetPlayerName()
     {
-        _playerName = name;
+        return _playerName;
     }
 }

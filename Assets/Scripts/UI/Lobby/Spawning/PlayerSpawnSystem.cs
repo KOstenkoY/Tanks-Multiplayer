@@ -48,8 +48,6 @@ public class PlayerSpawnSystem : NetworkBehaviour
         NetworkManagerLobby.OnServerReadied -= SpawnPlayer;
     }
 
-
-
     [Server]
     public void SpawnPlayer(NetworkConnection conn)
     {
@@ -73,6 +71,9 @@ public class PlayerSpawnSystem : NetworkBehaviour
             _spawnPoints[_nextIndex].rotation);
 
         NetworkServer.Spawn(playerInstance, conn);
+
+        //////////
+        playerInstance.GetComponent<Player>().PlayerName = Room.GamePlayers[_nextIndex].DisplayName;
 
         _nextIndex++;
     }

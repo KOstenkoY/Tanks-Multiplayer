@@ -11,6 +11,8 @@ public class ChatBehavior : NetworkBehaviour
 
     public static event Action<string> OnMessage;
 
+    public static event Func<string> OnGetPlayerName;
+
     private NetworkManagerLobby _room;
 
     private NetworkManagerLobby Room
@@ -64,7 +66,7 @@ public class ChatBehavior : NetworkBehaviour
     {
         try
         {
-            //RpcHandleMessage($"[{Room.GamePlayers[OnGetGamePlayerConnectionId.Invoke()].DisplayName}]: {message}");
+            RpcHandleMessage($"[{OnGetPlayerName?.Invoke()}]: {message}");
         }
         catch
         {

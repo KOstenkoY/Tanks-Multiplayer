@@ -16,7 +16,7 @@ public class PlayerWeapons : NetworkBehaviour
     private List<GameObject> _bulletsList = new List<GameObject>();
 
     // delay before next shooting after bullet hit something
-    [SerializeField] private float _delayBeforeNextShoot = 0.7f;
+    [SyncVar, SerializeField] private float _delayBeforeNextShoot = 0.7f;
 
     // when this flag equals true, we can shoot 
     private bool _canUse = true;

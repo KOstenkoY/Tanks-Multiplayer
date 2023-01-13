@@ -79,8 +79,6 @@ public class NetworkRoomPlayerLobby : NetworkBehaviour
     {
         Room.RoomPlayers.Add(this);
 
-        //CmdSetDisplayColor();
-
         UpdateDisplay();
     }
 
