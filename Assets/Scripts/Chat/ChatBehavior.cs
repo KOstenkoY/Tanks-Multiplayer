@@ -66,7 +66,7 @@ public class ChatBehavior : NetworkBehaviour
     {
         try
         {
-            RpcHandleMessage($"[{OnGetPlayerName?.Invoke()}]: {message}");
+            RpcHandleMessage($"[{UIController.Instance.Player.PlayerName}]: {message}");
         }
         catch
         {

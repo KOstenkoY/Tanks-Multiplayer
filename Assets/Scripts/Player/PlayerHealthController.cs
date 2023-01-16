@@ -56,8 +56,6 @@ public class PlayerHealthController : NetworkBehaviour
             GameManager.Instance.SpawnPlayer(gameObject);
 
         DelayBeforeSpawning(_delayBeforeSpawning);
-
-        //gameObject.SetActive(true);
     }
 
     private async void DelayBeforeSpawning(float milliseconds)

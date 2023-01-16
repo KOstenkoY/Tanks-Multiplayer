@@ -1,36 +1,19 @@
+using Mirror;
 using System;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player : NetworkBehaviour
 {
     private string _playerName = null;
 
     public string PlayerName { get { return _playerName; } set { _playerName = value; } }
-    
+
     private void Start()
     {
-        ChatBehavior.OnGetPlayerName += GetPlayerName;
-    }
+        if (isOwned)
+            UIController.Instance.SetPlayer(this);
 
-    private void OnDisable()
-    {
-        ChatBehavior.OnGetPlayerName -= GetPlayerName;
-    }
-
-    public void OnNameChanged(string oldName, string newName)
-    {
-        if(newName != null)
-        {
-            _playerName = newName;
-        }
-        else
-        {
-            throw new ArgumentNullException();
-        }
-    }
-
-    private string GetPlayerName()
-    {
-        return _playerName;
+        if (isClient)
+            UIController.Instance.SetPlayer(this);
     }
 }

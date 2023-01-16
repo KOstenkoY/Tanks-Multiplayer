@@ -34,12 +34,9 @@ public class Bullet : NetworkBehaviour
         {
             collision.GetComponent<BrickWall>()?.RemoveWall();
         }
-        else if (collision.CompareTag("Wall"))
-        {
-        }
         else
         {
-            throw new Exception("Bullet hit in uncertain object");
+            Debug.LogError("Bullet hit in uncertain object");
         }
     }
 }

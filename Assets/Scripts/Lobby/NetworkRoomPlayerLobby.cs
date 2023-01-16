@@ -68,6 +68,8 @@ public class NetworkRoomPlayerLobby : NetworkBehaviour
 
         CmdSetAvailableColors();
 
+        //ResetToggles();
+
         CmdSetColorHandler();
 
         CmdSetDisplayColor();
@@ -230,6 +232,10 @@ public class NetworkRoomPlayerLobby : NetworkBehaviour
             {
                 _uniqueColors[number].isOn = true;
             }
+        }
+        else
+        {
+            _uniqueColors[number].isOn = false;
         }
     }
 }
