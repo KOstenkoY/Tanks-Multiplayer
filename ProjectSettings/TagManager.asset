@@ -6,11 +6,12 @@ TagManager:
   tags:
   - BrickWall
   - Wall
+  - Water
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Bullet
   - Water
   - UI
   - 

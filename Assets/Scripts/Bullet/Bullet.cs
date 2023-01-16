@@ -20,6 +20,9 @@ public class Bullet : NetworkBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (collision.CompareTag("Water"))
+            return;
+
         gameObject.SetActive(false);
 
         // compare tags
