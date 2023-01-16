@@ -209,24 +209,27 @@ public class NetworkRoomPlayerLobby : NetworkBehaviour
     [Command]
     public void CmdChangeColor(int number)
     {
-        if(number != _colorId)
+        if (!isReady)
         {
-            if (_playerColorHandler.CheckFreePlayerColorUI(_colorId, number))
+            if (number != _colorId)
             {
-                _oldColorId = _colorId;
+                if (_playerColorHandler.CheckFreePlayerColorUI(_colorId, number))
+                {
+                    _oldColorId = _colorId;
 
-                _colorId = number;
+                    _colorId = number;
 
-                playerUniqueColor = _availableColors[number];
+                    playerUniqueColor = _availableColors[number];
+                }
+                else
+                {
+                    _uniqueColors[number].isOn = true;
+                }
             }
             else
             {
                 _uniqueColors[number].isOn = true;
             }
-        }
-        else
-        {
-            _uniqueColors[number].isOn = true;
         }
     }
 }

@@ -16,21 +16,23 @@ public class NetworkManagerLobby : NetworkManager
     [SerializeField] private NetworkRoomPlayerLobby _roomPlayerPrefab = null;
     [SerializeField] private ColorHandler _playerColorHandlerPref = null;
 
-    //[Header("Maps")]
-    //[SerializeField] private int _numberOfRounds = 1;
-    //[SerializeField] private MapSet _mapSet = null;
+    [Header("Maps")]
+    [SerializeField] private int _numberOfMap = 1;
+    [SerializeField] private MapSet _mapSet = null;
 
     [Header("Game")]
     [SerializeField] private NetworkGamePlayerLobby _gamePlayerPrefab = null;
     [SerializeField] private GameObject _playerSpawnSystem = null;
     //[SerializeField] private GameObject _roundSystem = null;
 
-    //private MapHandler _mapHandler;
+    private MapHandler _mapHandler;
 
     public static event Action OnClientConnected;
     public static event Action OnClientDisconnected;
     public static event Action<NetworkConnection> OnServerReadied;
     public static event Action OnServerStopped;
+
+    public static event Func<int> OnMapChanged;
 
     public List<NetworkRoomPlayerLobby> RoomPlayers { get; } = new List<NetworkRoomPlayerLobby>();
     public List<NetworkGamePlayerLobby> GamePlayers { get; } = new List<NetworkGamePlayerLobby>();
@@ -142,18 +144,6 @@ public class NetworkManagerLobby : NetworkManager
 
     public void StartGame()
     {
-        //if(SceneManager.GetActiveScene().name == _menuScene)
-        //{
-        //    if (!IsReadyToStart())
-        //    {
-        //        return;
-        //    }
-
-        //    _mapHandler = new MapHandler(_mapSet, _numberOfRounds);
-
-        //    ServerChangeScene(_mapHandler.NextMap);
-        //}
-
         if (SceneManager.GetActiveScene().name == menuScene)
         {
             if (!IsReadyToStart())
@@ -161,14 +151,29 @@ public class NetworkManagerLobby : NetworkManager
                 return;
             }
 
-            ServerChangeScene("SampleScene");
+            if(OnMapChanged != null)
+                _numberOfMap = OnMapChanged.Invoke();
+
+            _mapHandler = new MapHandler(_mapSet, _numberOfMap);
+
+            ServerChangeScene(_mapHandler.GetMap);
         }
+
+        //if (SceneManager.GetActiveScene().name == menuScene)
+        //{
+        //    if (!IsReadyToStart())
+        //    {
+        //        return;
+        //    }
+
+        //    ServerChangeScene("SampleScene");
+        //}
     }
 
     public override void ServerChangeScene(string newSceneName)
     {
         // From menu to game
-        if (SceneManager.GetActiveScene().name == menuScene && newSceneName.StartsWith("SampleScene"))
+        if (SceneManager.GetActiveScene().name == menuScene && newSceneName.StartsWith("GameMap_"))
         {
             for (int i = RoomPlayers.Count - 1; i >= 0; i--)
             {
@@ -187,7 +192,7 @@ public class NetworkManagerLobby : NetworkManager
 
     public override void OnServerSceneChanged(string sceneName)
     {
-        if (sceneName.StartsWith("SampleScene"))
+        if (sceneName.StartsWith("GameMap_"))
         {
             GameObject playerSpawnSystemInstance = Instantiate(_playerSpawnSystem);
             NetworkServer.Spawn(playerSpawnSystemInstance);

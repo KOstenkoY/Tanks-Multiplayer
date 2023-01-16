@@ -12,7 +12,7 @@ public class PlayerHealthController : NetworkBehaviour
     [SyncVar, SerializeField] private int _maxHealth = 3;
 
     [SyncVar(hook = nameof(HealthChanged))]
-    public int _health = 0;
+    private int _health = 0;
 
     public bool isDead => _health == 0;
 
