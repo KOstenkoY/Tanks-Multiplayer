@@ -42,9 +42,16 @@ public class PlayerHealthController : NetworkBehaviour
         _health -= damage;
 
         if (_health <= 0)
+        {
+            if (isClient)
+                PlayerDead();
+            
             NetworkServer.Destroy(player);
+        }
         else
+        {
             RpcHandleDeath();
+        }
     }
 
     [ClientRpc]
@@ -63,5 +70,10 @@ public class PlayerHealthController : NetworkBehaviour
         await Task.Delay((int)(milliseconds * 1000));
 
         gameObject.SetActive(true);
+    }
+
+    private void PlayerDead()
+    {
+        UIController.Instance.LoseGame();
     }
 }

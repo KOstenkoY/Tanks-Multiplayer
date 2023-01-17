@@ -158,16 +158,6 @@ public class NetworkManagerLobby : NetworkManager
 
             ServerChangeScene(_mapHandler.GetMap);
         }
-
-        //if (SceneManager.GetActiveScene().name == menuScene)
-        //{
-        //    if (!IsReadyToStart())
-        //    {
-        //        return;
-        //    }
-
-        //    ServerChangeScene("SampleScene");
-        //}
     }
 
     public override void ServerChangeScene(string newSceneName)

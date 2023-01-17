@@ -222,6 +222,8 @@ public class NetworkRoomPlayerLobby : NetworkBehaviour
                     _colorId = number;
 
                     playerUniqueColor = _availableColors[number];
+
+                    RpcCloseToggle(number);
                 }
                 else
                 {
@@ -235,7 +237,26 @@ public class NetworkRoomPlayerLobby : NetworkBehaviour
         }
         else
         {
+            RpcCancelAction(number);
+        }
+    }
+
+    [TargetRpc]
+    private void RpcCancelAction(int number)
+    {
+        if(_uniqueColors[number].isOn)
+        {
             _uniqueColors[number].isOn = false;
         }
+        else if (_uniqueColors[number].isOn == false)
+        {
+            _uniqueColors[number].isOn = true;
+        }
+    }
+
+    [ClientRpc]
+    private void RpcCloseToggle(int number)
+    {
+        _uniqueColors[number].isOn = true;
     }
 }
