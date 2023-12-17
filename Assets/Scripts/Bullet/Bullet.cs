@@ -25,7 +25,7 @@ public class Bullet : NetworkBehaviour
 
         gameObject.SetActive(false);
 
-        DestroyBullet(this.gameObject);
+        CmdDestroyBullet(this.gameObject);
 
         // compare tags
         if (collision.CompareTag("Player"))
@@ -42,8 +42,8 @@ public class Bullet : NetworkBehaviour
         }
     }
 
-    [Server]
-    private void DestroyBullet(GameObject bullet)
+    [Command]
+    private void CmdDestroyBullet(GameObject bullet)
     {
         bullet.SetActive(false);
     }

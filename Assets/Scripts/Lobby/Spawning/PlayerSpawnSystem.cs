@@ -72,7 +72,6 @@ public class PlayerSpawnSystem : NetworkBehaviour
 
         NetworkServer.Spawn(playerInstance, conn);
 
-        //////////
         playerInstance.GetComponent<Player>().PlayerName = Room.GamePlayers[_nextIndex].DisplayName;
 
         _nextIndex++;

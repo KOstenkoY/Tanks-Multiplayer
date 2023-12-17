@@ -68,8 +68,6 @@ public class NetworkRoomPlayerLobby : NetworkBehaviour
 
         CmdSetAvailableColors();
 
-        //ResetToggles();
-
         CmdSetColorHandler();
 
         CmdSetDisplayColor();
@@ -232,7 +230,14 @@ public class NetworkRoomPlayerLobby : NetworkBehaviour
             }
             else
             {
-                _uniqueColors[number].isOn = true;
+                if (_playerColorHandler.CheckAvailibleColor(number))
+                {
+                    _uniqueColors[number].isOn = false;
+                }
+                else
+                {
+                    _uniqueColors[number].isOn = true;
+                }
             }
         }
         else
@@ -244,13 +249,16 @@ public class NetworkRoomPlayerLobby : NetworkBehaviour
     [TargetRpc]
     private void RpcCancelAction(int number)
     {
-        if(_uniqueColors[number].isOn)
+        if (isOwned)
         {
-            _uniqueColors[number].isOn = false;
-        }
-        else if (_uniqueColors[number].isOn == false)
-        {
-            _uniqueColors[number].isOn = true;
+            if (_uniqueColors[number].isOn)
+            {
+                _uniqueColors[number].isOn = false;
+            }
+            else if (_uniqueColors[number].isOn == false)
+            {
+                _uniqueColors[number].isOn = true;
+            }
         }
     }
 

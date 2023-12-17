@@ -318,7 +318,7 @@ MonoBehaviour:
   autoStartServerBuild: 1
   autoConnectClientBuild: 0
   sendRate: 30
-  offlineScene: 
+  offlineScene: Assets/Scenes/Lobby.unity
   onlineScene: Assets/Scenes/Lobby.unity
   transport: {fileID: 477162071}
   networkAddress: 192.168.1.116
@@ -339,7 +339,7 @@ MonoBehaviour:
   - {fileID: 749798759064715121, guid: 7e5453bac52c02e4e884e50e4b53add3, type: 3}
   - {fileID: 2503609818613467196, guid: 4f2a75ef1ca5caa42b0d681fe5a3dc4b, type: 3}
   timeInterpolationGui: 0
-  _minPlayers: 2
+  _minPlayers: 1
   _menuScene: Assets/Scenes/Lobby.unity
   menuScene: Lobby
   _roomPlayerPrefab: {fileID: 2386665210869769110, guid: b4aab7ff64d074b44badfeb2aff8b6c8, type: 3}

@@ -23,7 +23,10 @@ public class NetworkManagerLobby : NetworkManager
     [Header("Game")]
     [SerializeField] private NetworkGamePlayerLobby _gamePlayerPrefab = null;
     [SerializeField] private GameObject _playerSpawnSystem = null;
+    //private CustomGameManager _customGameManager = new CustomGameManager();
     //[SerializeField] private GameObject _roundSystem = null;
+
+    //public CustomGameManager CustomGameManager => _customGameManager;
 
     private MapHandler _mapHandler;
 
@@ -109,7 +112,7 @@ public class NetworkManagerLobby : NetworkManager
 
         base.OnServerDisconnect(conn);
     }
-
+    
     public override void OnStopServer()
     {
         OnServerStopped?.Invoke();
@@ -165,7 +168,7 @@ public class NetworkManagerLobby : NetworkManager
         // From menu to game
         if (SceneManager.GetActiveScene().name == menuScene && newSceneName.StartsWith("GameMap_"))
         {
-            for (int i = RoomPlayers.Count - 1; i >= 0; i--)
+            for (int i = 0; i < RoomPlayers.Count; i++)
             {
                 var conn = RoomPlayers[i].connectionToClient;
                 var gameplayerInstance = Instantiate(_gamePlayerPrefab);

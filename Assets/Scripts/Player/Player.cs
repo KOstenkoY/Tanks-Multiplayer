@@ -8,12 +8,61 @@ public class Player : NetworkBehaviour
 
     public string PlayerName { get { return _playerName; } set { _playerName = value; } }
 
-    private void Start()
+    private NetworkManagerLobby _room;
+
+    private NetworkManagerLobby Room
+    {
+        get
+        {
+            if (_room != null)
+                return _room;
+
+            return _room = NetworkManager.singleton as NetworkManagerLobby;
+        }
+    }
+
+    public override void OnStartAuthority()
+    {
+        UIController.OnReturnToMainMenu += DestroyPlayer;
+    }
+
+    public override void OnStartClient()
+    {
+        CustomGameManager.Instance.AddPlayer(this);
+    }
+
+    public override void OnStopAuthority()
+    {
+        UIController.OnReturnToMainMenu -= DestroyPlayer;
+    }
+
+    private void DestroyPlayer()
     {
         if (isOwned)
-            UIController.Instance.SetPlayer(this);
+        {
+            //CustomGameManager.Instance.RemovePlayer(this);
 
-        if (isClient)
-            UIController.Instance.SetPlayer(this);
+            NetworkManagerLobby.singleton.StopClient();
+        }
     }
+
+    public void Win()
+    {
+        if (isOwned)
+            UIController.Instance.WinGame();
+    }
+
+    public void Dead()
+    {
+        if(isOwned)
+            UIController.Instance.LoseGame();
+    }
+
+    public void DeadSecond()
+    {
+        if (isOwned)
+            // called for player that have second place
+            UIController.Instance.LoseGameSecondPlace();
+    }
+
 }

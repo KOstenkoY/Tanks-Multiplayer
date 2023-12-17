@@ -61,4 +61,12 @@ public class ColorHandler : NetworkBehaviour
             return false;
         }
     }
+
+    public bool CheckAvailibleColor(int number)
+    {
+        if (_availableColors[number] == true)
+            return true;
+        else
+            return false;
+    }
 }

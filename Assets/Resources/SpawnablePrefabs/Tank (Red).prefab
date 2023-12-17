@@ -48,6 +48,7 @@ GameObject:
   - component: {fileID: 7892090976394034853}
   - component: {fileID: 7301095914890630957}
   - component: {fileID: 7057878652255561904}
+  - component: {fileID: 6816936258348215580}
   m_Layer: 0
   m_Name: Tank (Red)
   m_TagString: Player
@@ -280,4 +281,21 @@ MonoBehaviour:
   syncInterval: 0
   _delayBeforeSpawning: 0.5
   _maxHealth: 3
-  _health: 0
+--- !u!114 &6816936258348215580
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8111709544659531213}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 501d35e669b79594da546b6ed4fd222c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
+  _chatCanvas: {fileID: 0}
+  _chatText: {fileID: 0}
+  _inputField: {fileID: 0}

@@ -56,10 +56,11 @@ public class GameManager : Singleton<GameManager>
         player.transform.position = _spawnPositions.GetChild(_helperRandomIndex[_index]).position;
         player.transform.rotation = _spawnPositions.GetChild(_helperRandomIndex[_index]).rotation;
 
-        InputManager.Instance.ResetRotation();
-
-        //StartCoroutine(DelayBeforeSpawning());
-
         _index++;
+    }
+
+    public void ResetPosition()
+    {
+        InputManager.Instance.ResetRotation();
     }
 }

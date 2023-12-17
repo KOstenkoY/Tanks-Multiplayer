@@ -5,7 +5,6 @@ using System.Collections.Generic;
 public class MapHandler
 {
     private readonly IReadOnlyCollection<string> _maps;
-    private readonly int _numberFirstMap = 0;
 
     private int _currentMap;
     private List<string> _remainingMaps;
